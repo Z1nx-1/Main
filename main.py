@@ -1,27 +1,29 @@
 
 # This function will be called then assign the contents of the text file 'list.txt' to a list called 'coll'(Collection).
 def list_function():
-    global coll
     with open('list.txt', 'r') as file:
         coll = file.read().split()
+        return coll
 
 
 # This function acts as a main menu that will give the user access to each parts of the program in an easy manner.
 def main():
     try:
+        coll = list_function()
         while True:
             user_input = input("----------MAIN MENU----------\n1)Add to list\n2)Search list\n3)Remove from list\n4)Save changes\n5)Cancel changes/Refresh\n6)Print list\n-----------------------------\n")
             if user_input == '1':
-                add_to_list()
+                add_to_list(coll)
             elif user_input == '2':
-                search_list()
+                search_list(coll)
             elif user_input == '3':
-                remove_list()
+                remove_list(coll)
             elif user_input == '4':
-                save_to_file()
+                save_to_file(coll)
             elif user_input == '5':
-                list_function()
-                print(coll)
+                main()  # by recalling the main() function the list 'coll' will get redefined with 'coll = list_function()' at the start of main().
+                for content in coll:
+                    print(content)
             elif user_input == '6':
                 # This for-loop will give each item in the list an ascending number.
                 val = 0
@@ -37,7 +39,7 @@ def main():
 
 
 # This function will ask for user input that will be appended to the end of the 'coll' list.
-def add_to_list():
+def add_to_list(coll):
     while True:
         try:
             user_input = input("\nType '//' to go back\nWhat do you want to add? ")
@@ -58,7 +60,7 @@ def add_to_list():
 
 
 # This function is used when the user has confirmed and is ready to commit the changes made in the local list into the text file.
-def save_to_file():
+def save_to_file(coll):
     with open('list.txt', 'w') as file:
         for content in coll:
             file.write(content + '\n')
@@ -66,13 +68,13 @@ def save_to_file():
 
 
 # This function gives the user the ability to search the list for a specific item.
-def search_list():
+def search_list(coll):
     while True:
         try:
             target = input("\nType '//' to go back\nEnter name you want to search: ")
             if target == '//':
                 break
-            if target.lower() in coll:
+            if target in coll:
                 print(f"{target} has been found in the file!")
             else:
                 print("That is not in the file! ")
@@ -81,21 +83,25 @@ def search_list():
 
 
 # This function, like the 'search_list' function will ask the user for an item name and then remove that item from the list.
-def remove_list():
+def remove_list(coll):
+    val = 0  # The val variable is used to stop the initial unedited version of the list appearing after a removal of an item, this works due to the first loop doesn't increment val which means it can print the initial list.
     while True:
         try:
+            if val == 0:
+                for content in coll:
+                    print(content)
             target = input("\nType '//' to go back\nEnter the name you want to remove: ")
             if target == '//':
                 break
             coll.remove(target)
+            print("\n\n\nUpdated list: ")
             for content in coll:
                 print(content)
-            print(coll)
+            val += 1
+
         except ValueError:
             print("ERROR!")
 
 
 if __name__ == '__main__':
-    coll = []
-    list_function()
     main()
