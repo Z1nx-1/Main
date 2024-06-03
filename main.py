@@ -25,10 +25,9 @@ def main():
                 for content in coll:
                     print(content)
             elif user_input == '6':
-                # This for-loop will give each item in the list an ascending number.
                 val = 0
                 print("\n\n------")
-                for content in coll:
+                for content in coll:  # This for-loop will give each item in the list an ascending number.
                     val += 1
                     print(f"{val}){content}")
                 print("------\n\n")
@@ -40,23 +39,54 @@ def main():
 
 # This function will ask for user input that will be appended to the end of the 'coll' list.
 def add_to_list(coll):
-    while True:
-        try:
-            user_input = input("\nType '//' to go back\nWhat do you want to add? ")
-            if user_input == '//':
-                break
-            confirm = input(f"Is this correct? {user_input} \nY/N: ")
-            if confirm.lower() == 'y':
-                coll.append(user_input)
-                print(coll)
+    try:
+        user_input = input("\nType '//' to go back\nWhat do you want to add?\n")
+        if user_input == '//':
+            print("\n")
+            return
+        confirm = input(f"\nIs this correct? {user_input} \nY/N: ")
+        if confirm.lower() == 'y':
+            coll.append(user_input)
+            print(f"\n\n{coll}\n\n")
+        elif confirm.lower() == 'n':
+            add_to_list(coll)
 
-            elif confirm.lower() == 'n':
-                continue
+        else:
+            print("\n\n\nERROR, please enter a valid option: ")
+    except ValueError:
+        print("ERROR!")
 
-            else:
-                print("\n\n\nERROR, please enter a valid option: ")
-        except ValueError:
-            print("ERROR!")
+
+# This function gives the user the ability to search the list for a specific item.
+def search_list(coll):
+    try:
+        target = input("\nType '//' to go back\nEnter name you want to search: ")
+        if target == '//':
+            print("\n")
+            return
+        if target in coll:
+            print(f"{target} has been found in the file!")
+        else:
+            print("That is not in the file! ")
+    except ValueError:
+        print("ERROR!")
+
+
+# This function, like the 'search_list' function will ask the user for an item name and then remove that item from the list.
+def remove_list(coll):
+    try:
+        for content in coll:
+            print(content)
+        target = input("\nType '//' to go back\nWhich item would you like to remove?\n")
+        if target == '//':
+            print(f"\n")
+            return
+        coll.remove(target)
+        print("\n\n\nUpdated list: ")
+        for content in coll:
+            print(content)
+    except ValueError:
+        print("ERROR! That item doesn't exist in the list! ")
 
 
 # This function is used when the user has confirmed and is ready to commit the changes made in the local list into the text file.
@@ -65,42 +95,6 @@ def save_to_file(coll):
         for content in coll:
             file.write(content + '\n')
             print(content)
-
-
-# This function gives the user the ability to search the list for a specific item.
-def search_list(coll):
-    while True:
-        try:
-            target = input("\nType '//' to go back\nEnter name you want to search: ")
-            if target == '//':
-                break
-            if target in coll:
-                print(f"{target} has been found in the file!")
-            else:
-                print("That is not in the file! ")
-        except ValueError:
-            print("ERROR!")
-
-
-# This function, like the 'search_list' function will ask the user for an item name and then remove that item from the list.
-def remove_list(coll):
-    val = 0  # The val variable is used to stop the initial unedited version of the list appearing after a removal of an item, this works due to the first loop doesn't increment val which means it can print the initial list.
-    while True:
-        try:
-            if val == 0:
-                for content in coll:
-                    print(content)
-            target = input("\nType '//' to go back\nEnter the name you want to remove: ")
-            if target == '//':
-                break
-            coll.remove(target)
-            print("\n\n\nUpdated list: ")
-            for content in coll:
-                print(content)
-            val += 1
-
-        except ValueError:
-            print("ERROR!")
 
 
 if __name__ == '__main__':
