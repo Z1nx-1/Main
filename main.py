@@ -16,7 +16,7 @@ def main():
                 case 1:
                     add_to_list(coll)
                 case 2:
-                    add_to_list(coll)
+                    search_list(coll)
                 case 3:
                     remove_list(coll)
                 case 4:
@@ -30,7 +30,9 @@ def main():
                     print("\nInvalid option, please try again:\n\n\n")
 
     except ValueError as e:
-        print(f"{e} has caused an error")
+        print(f"ERROR! {e} has caused an Value error!")
+    except Exception as e:
+        print(f"ERROR!\nA general error has occurred!\nMore info: \n{e}")
 
 
 # This function will ask for user input that will be appended to the end of the 'coll' list.
@@ -42,31 +44,37 @@ def add_to_list(coll):
             if user_input == '//':
                 print("\n")
                 return
-            confirm = input(f"\nIs this correct? {user_input} \nY/N: ")
-            if confirm.lower() == 'y':
-                coll.append(user_input)
-                print(f"\n\n{coll}\n\n")
-            elif confirm.lower() == 'n':
-                add_to_list(coll)
 
-            else:
-                print("\n\n\nERROR, please enter a valid option: ")
+            match user_confirm_action(user_input):
+                case True:
+                    coll.append(user_input)
+                    print(f"\n\n{coll}\n\n")
+                case False:
+                    continue
+
+            # else:
+            #    print("\n\n\nERROR, please enter a valid option: ")
         except ValueError:
             print("ERROR!")
 
 
 # This function gives the user the ability to search the list for a specific item.
+# (P1) The exported_data variable is defined by the main coll list with the addition of a for loop with will set each item in the list to lower case.
+# (P2) Then the items/data inside exported_data will be defined within temporary_coll.
+# (P3) The reason for converting to lower case, so the user has an easier time searching for items, otherwise you would need to have exact capitalization.
 def search_list(coll):
     while True:
         try:
+            exported_data = [x.lower() for x in coll]
+            temporary_coll = exported_data
             target = input("\nType '//' to go back\nEnter name you want to search: ")
             if target == '//':
                 print("\n")
                 return
-            if target in coll:
+            if target.lower() in temporary_coll:
                 print(f"{target} has been found in the file!")
             else:
-                print("That is not in the file! ")
+                print(f"{target} has not been found in the file!")
         except ValueError:
             print("ERROR!")
 
@@ -82,14 +90,13 @@ def remove_list(coll):
             if target == '//':
                 print(f"\n")
                 return
+            match user_confirm_action(target):
+                case True:
+                    coll.remove(target)
+                case False:
+                    print("Item was not removed: ")
+                    continue
 
-            confirm = input(f"\nIs this correct? {target} \nY/N: ")
-            if confirm.lower() == 'y':
-                coll.append(target)
-                print(f"\n\n{coll}\n\n")
-            elif confirm.lower() == 'n':
-                add_to_list(coll)
-            coll.remove(target)
             print("\n\n\nUpdated list: ")
             for_print_function(coll)
             val += 1
@@ -105,12 +112,29 @@ def save_to_file(coll):
             print(content)
 
 
+# When called this function will print each line of the list with a number on each item in ascending order, which makes the list easier to read.
 def for_print_function(coll):
-    val = 0
-    print("\n\n------\nCurrent contents:")
-    for content in coll:  # This for-loop will print the contents of the list, one by one and will give each item an ascending number.
+    val = 0  # This variable is responsible for the item number and will increment once each loop, giving each item a number.
+    print("\n\n------\nList's current contents:")
+    for content in coll:
         val += 1
         print(f"{val}){content}")
+
+
+# Function concept: Before applying an action, this function will be called which will be given a parameter which will the users action/input, then will determine if the action proceeds or not.
+def user_confirm_action(user_input):
+    while True:
+        try:
+            confirm = input(f"Is this correct? -- {user_input} --\n")
+            match confirm.lower():
+                case 'y':
+                    return True
+                case 'n':
+                    return False
+                case _:
+                    print("\nInvalid option, please try again:\n\n\n")
+        except ValueError:
+            print("ERROR! ")
 
 
 if __name__ == '__main__':
