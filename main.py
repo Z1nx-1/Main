@@ -84,10 +84,10 @@ def remove_list(coll):
             if target is False:
                 break
             elif target in coll:
-                print(f"{target} was been found and has been removed!\n")
+                print(f"{target} found and has been removed!\n")
                 coll.remove(target)
             else:
-                print(f"{target} was not been found, no changes have been made!")
+                print(f"{target} has not been found, no changes have been made!")
         except ValueError:
             print("ERROR! That item doesn't exist in the list! ")
 
