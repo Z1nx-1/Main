@@ -60,6 +60,7 @@ def add_to_list(coll):
 def search_list(coll):
     while True:
         try:
+            index_or_name(coll)
             for_print_function(coll)
             print("Enter the name of the item you would like to search: ")
             lower_case_converted_list = lower_case_coll_function(coll)
@@ -84,6 +85,9 @@ def search_list(coll):
 def remove_list(coll):
     while True:
         try:
+            user_choice = index_or_name(coll)
+            if user_choice == False:
+                break
             for_print_function(coll)
             target = user_function_with_confirm()
             if target is False:
@@ -180,6 +184,31 @@ def list_sorting(coll):
         val += 1
         print(f"|      {val}){content1}{" "*(9-len(content2))}|      {val}){content2}{" "*(8-len(content2))}|")
     print("====================================")
+
+
+
+def index_or_name(coll):
+    user_input = input("Do you want to use index or the name of the item?\n1)Index\n2)Name\n>>> ")
+    match user_input:
+        case 1:
+            for_print_function(coll)
+            print("Enter the index of the item you want to remove: ")
+            target_index = int(input("Enter the index of the item you want to remove:\n>>> "))
+            if target_index == '//':
+                return False
+            match coll[target_index] in coll:
+                case True:
+                    print(f"{coll[target_index]} was found in the list! ")
+                    coll.remove(target_index)
+                    return False
+                case False:
+                    print(f"{coll[target_index]} was not found in the file! ")
+        case 2:
+            return
+        case _:
+            print("ERROR")
+
+
 
 
 if __name__ == '__main__':
