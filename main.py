@@ -1,4 +1,7 @@
 
+# from tabulate import tabulate
+
+
 # This function will be called then assign the contents of the text file 'list.txt' to a list called 'coll'(Collection).
 def list_function():
     with open('list.txt', 'r') as file:
@@ -25,7 +28,7 @@ def main():
                     print("All changes have been restored! ")
                     main()  # by using recursion with the main() function the list 'coll' will get redefined with 'coll = list_function()' at the start of main(), in other words will replenish the list with the current txt contents.
                 case 6:
-                    for_print_function(coll)
+                    list_sorting(coll)
                     print("\n\n")
                 case _:
                     print("\nInvalid option, please try again:")
@@ -105,7 +108,7 @@ def save_to_file(coll):
 
 
 # This function will ask the user for an input and then ask to confirm if it is correct, if not the continue statement is used which will replenish the loop and start again.
-# If the user wants to exit the function they can enter '//' on user_input, (Note that you can only leave the function on user_input and not confirm_user_input, meaning that you would need to enter N on confirm then type '//')
+# If the user wants to exit the function they can enter '//' on user_input, *Note that you can only leave the function on user_input and not confirm_user_input, meaning that you would need to enter N on confirm then type '//'*
 def user_function_with_confirm():
     while True:
         try:
@@ -158,6 +161,17 @@ def for_print_function(coll):
 def lower_case_coll_function(coll):
     exported_data = [x.lower() for x in coll]
     return exported_data
+
+
+def list_sorting(coll):
+    temporary_list = []
+    for x in coll:
+        temporary_list.append(x)
+    temporary_list.sort()
+    print("               Unsorted               |               Sorted               |")
+    for content1 in coll:
+        for content2 in temporary_list:
+            print(f"|               {content1}               |               {content2}               |")
 
 
 if __name__ == '__main__':
