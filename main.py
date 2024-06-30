@@ -14,7 +14,7 @@ def main():
     coll = list_function()
     while True:
         try:
-            user_input = int(input("----------MAIN MENU----------\n1)Add to list\n2)Search list\n3)Remove from list\n4)Save changes\n5)Cancel changes/Refresh\n6)Print list\n-----------------------------\n>>> "))
+            user_input = int(input("----------MAIN MENU----------\n1)Add to list\n2)Search list\n3)Remove from list\n4)Save changes\n5)Cancel changes/Refresh\n6)Print list\n7)Sort table\n-----------------------------\n>>> "))
             match user_input:
                 case 1:
                     add_to_list(coll)
@@ -28,8 +28,10 @@ def main():
                     print("All changes have been restored! ")
                     main()  # by using recursion with the main() function the list 'coll' will get redefined with 'coll = list_function()' at the start of main(), in other words will replenish the list with the current txt contents.
                 case 6:
-                    list_sorting(coll)
+                    for_print_function(coll)
                     print("\n\n")
+                case 7:
+                    list_sorting(coll)
                 case _:
                     print("\nInvalid option, please try again:")
         except ValueError as e:
@@ -163,15 +165,21 @@ def lower_case_coll_function(coll):
     return exported_data
 
 
+# list_sorting function is alot like the for_print_function but will instead sort the list and print a table consisting of unsorted and sorted.
+# The function will define an empty list called temporary list and will use a for loop which will append each item from coll then will sort the temporary list meaning
+# that the list coll which the whole program uses won't be affected, then a for loop is again used but will print each item of both unsorted and sorted alongside each other
+# simultaneously in a table.
 def list_sorting(coll):
     temporary_list = []
     for x in coll:
         temporary_list.append(x)
     temporary_list.sort()
-    print("               Unsorted               |               Sorted               |")
-    for content1 in coll:
-        for content2 in temporary_list:
-            print(f"|               {content1}               |               {content2}               |")
+    print("====================================\n|layout from file | New sorted list|\n|    Unsorted     |     Sorted     |")
+    val = 0
+    for content1, content2 in zip(coll, temporary_list):
+        val += 1
+        print(f"|      {val}){content1}{" "*(9-len(content2))}|      {val}){content2}{" "*(8-len(content2))}|")
+    print("====================================")
 
 
 if __name__ == '__main__':
