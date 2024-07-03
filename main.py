@@ -1,7 +1,4 @@
 
-# from tabulate import tabulate
-
-
 # This function will be called then assign the contents of the text file 'list.txt' to a list called 'coll'(Collection).
 def list_function():
     with open('list.txt', 'r') as file:
@@ -60,7 +57,6 @@ def add_to_list(coll):
 def search_list(coll):
     while True:
         try:
-            index_or_name(coll)
             for_print_function(coll)
             print("Enter the name of the item you would like to search: ")
             lower_case_converted_list = lower_case_coll_function(coll)
@@ -85,9 +81,6 @@ def search_list(coll):
 def remove_list(coll):
     while True:
         try:
-            user_choice = index_or_name(coll)
-            if user_choice == False:
-                break
             for_print_function(coll)
             target = user_function_with_confirm()
             if target is False:
@@ -172,43 +165,17 @@ def lower_case_coll_function(coll):
 # list_sorting function is alot like the for_print_function but will instead sort the list and print a table consisting of unsorted and sorted.
 # The function will define an empty list called temporary list and will use a for loop which will append each item from coll then will sort the temporary list meaning
 # that the list coll which the whole program uses won't be affected, then a for loop is again used but will print each item of both unsorted and sorted alongside each other
-# simultaneously in a table.
-def list_sorting(coll):
+# simultaneously in a table. The table has a feature depending on the size of the item inside both lists will determine how many spaces are added, this ensures the walls
+# don't move and stay connected as column.
+def list_sorting(coll):  # ToDo ~ make the function modular in size, i.e increase amount of '=====' borders depending on the size.
     temporary_list = []
     for x in coll:
         temporary_list.append(x)
     temporary_list.sort()
-    print("====================================\n|layout from file | New sorted list|\n|    Unsorted     |     Sorted     |")
-    val = 0
+    print("\n\n|===================================|\n|     Unsorted     |     Sorted     |")  # 19 | 15
     for content1, content2 in zip(coll, temporary_list):
-        val += 1
-        print(f"|      {val}){content1}{" "*(9-len(content2))}|      {val}){content2}{" "*(8-len(content2))}|")
-    print("====================================")
-
-
-
-def index_or_name(coll):
-    user_input = input("Do you want to use index or the name of the item?\n1)Index\n2)Name\n>>> ")
-    match user_input:
-        case 1:
-            for_print_function(coll)
-            print("Enter the index of the item you want to remove: ")
-            target_index = int(input("Enter the index of the item you want to remove:\n>>> "))
-            if target_index == '//':
-                return False
-            match coll[target_index] in coll:
-                case True:
-                    print(f"{coll[target_index]} was found in the list! ")
-                    coll.remove(target_index)
-                    return False
-                case False:
-                    print(f"{coll[target_index]} was not found in the file! ")
-        case 2:
-            return
-        case _:
-            print("ERROR")
-
-
+        print("|", content1, " "*(15-len(content1)), "|", content2, " "*(13-len(content2)), "|")
+    print("|===================================|\n\n")
 
 
 if __name__ == '__main__':
