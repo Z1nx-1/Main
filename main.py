@@ -1,5 +1,6 @@
-
-# This function will be called then assign the contents of the text file 'list.txt' to a list called 'coll'(Collection).
+# ToDO ~ To implement index or name function without cluttering the code, ask the user first, pass that value into the function, depending on the value
+# ToDO ~ that the user typed, index or name would be called.
+# ToDo ~ This function will be called then assign the contents of the text file 'list.txt' to a list called 'coll'(Collection).
 def list_function():
     with open('list.txt', 'r') as file:
         coll = file.read().split()
@@ -29,6 +30,8 @@ def main():
                     print("\n\n")
                 case 7:
                     list_sorting(coll)
+                case 8:
+                    test_function(coll)
                 case _:
                     print("\nInvalid option, please try again:")
         except ValueError as e:
@@ -176,6 +179,33 @@ def list_sorting(coll):  # ToDo ~ make the function modular in size, i.e increas
     for content1, content2 in zip(coll, temporary_list):
         print("|", content1, " "*(15-len(content1)), "|", content2, " "*(13-len(content2)), "|")
     print("|===================================|\n\n")
+
+
+def test_function(coll):  # isnumeric()
+    name_or_index_function(coll)
+
+
+def name_or_index_function(coll):
+    def index_function():
+        for_print_function(coll)
+        input_target_index = int(input("Enter the item's index number:\n>>> "))
+        return input_target_index
+
+    def name_function():
+        for_print_function(coll)
+        input_target_name = input("Enter the item's name:\n>>> ")
+        for target in range(len(coll)):
+            if coll[target] == input_target_name:
+                print(target)
+                return target
+        return input_target_name
+
+    user_input = int(input("Do you want to use item index or name? \n1)Index\n2)Name\n>>> "))
+    if user_input == 1:
+        target_input = index_function()
+    elif user_input == 2:
+        target_input = name_function()
+    return target_input
 
 
 if __name__ == '__main__':
