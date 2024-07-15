@@ -30,8 +30,6 @@ def main():
                     print("\n\n")
                 case 7:
                     list_sorting(coll)
-                case 8:
-                    test_function(coll)
                 case _:
                     print("\nInvalid option, please try again:")
         except ValueError as e:
@@ -64,7 +62,7 @@ def search_list(coll):
             target = name_or_index_function(coll)
             if target is False:
                 break
-            print(f"Name: {coll[target]}\nIndex: {target}")
+            print(f"\nItem index| {target}\n Item name| {coll[target]}")
         except ValueError:
             print("ERROR!")
         except Exception as e:
@@ -80,14 +78,13 @@ def remove_list(coll):
             target = name_or_index_function(coll)
             if target is False:
                 break
-            confirm = input(f"\nType '//' to return to main menu:\nAre you sure you want to remove this item?\nIndex | {target}\n Name | {coll[target]}\nY/N:\n>>> ")
+            confirm = input(f"\nType '//' to return to main menu:\nAre you sure you want to remove this item?\nItem index| {target}\n Item name| {coll[target]}\nY/N:\n>>> ")
             if confirm == '//':
                 break
             match confirm.lower():
                 case 'y':
                     del coll[target]
-                    print(f"{coll[target]} has been removed! ")
-                    for_print_function(coll)
+                    print("Item(s) have been removed! ")
                 case 'n':
                     print("Changes have not been made! ")
                     continue
@@ -181,17 +178,19 @@ def list_sorting(coll):  # ToDo ~ make the function modular in size, E.g increas
     print("|===================================|\n\n")
 
 
-def test_function(coll):  # isnumeric()
-    name_or_index_function(coll)
-
-
+# name_or_index_function is used when a function that uses user input and might need to use a keyword or index, mainly if there are multiple
+# items with the same name, hence the usage of index.
+# The function also utilises nested function as the functions within only work in this work flow.
 def name_or_index_function(coll):
     try:
+        # This function will ask the user for an index of an item and then return the integer
         def index_function():
             for_print_function(coll)
             input_target_index = int(input("Enter the item's index number:\n>>> "))
             return input_target_index
 
+        # This function will ask the user for the name of an item and then will find the item in the list then
+        # will get the index position of the item by using its name.
         def name_function():
             for_print_function(coll)
             input_target_name = input("Enter the item's name:\n>>> ")
@@ -201,7 +200,7 @@ def name_or_index_function(coll):
             return input_target_name
 
         user_input = input("Type '//' to return to main menu:\nDo you want to use item index or name? \n1)Index\n2)Name\n>>> ")
-        if user_input == '//':
+        if user_input == '//':  # Returns to the main menu
             return False
         if user_input == '1':
             target_input = index_function()
@@ -209,9 +208,9 @@ def name_or_index_function(coll):
         elif user_input == '2':
             target_input = name_function()
             return target_input
+        #  I could use return target_input here but for some reason pycharm gives me a warning doing so.
     except ValueError:
         print("Value Error!")
-
     except Exception as e:
         print(f"ERROR!\nA general error has occurred!\nMore info: \n{e}")
 
