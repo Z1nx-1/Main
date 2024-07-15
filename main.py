@@ -1,6 +1,4 @@
-# ToDO ~ To implement index or name function without cluttering the code, ask the user first, pass that value into the function, depending on the value
-# ToDO ~ that the user typed, index or name would be called.
-# ToDo ~ This function will be called then assign the contents of the text file 'list.txt' to a list called 'coll'(Collection).
+# This function will be called then assign the contents of the text file 'list.txt' to a list called 'coll'(Collection).
 def list_function():
     with open('list.txt', 'r') as file:
         coll = file.read().split()
