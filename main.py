@@ -61,18 +61,10 @@ def search_list(coll):
     while True:
         try:
             for_print_function(coll)
-            print("Enter the name of the item you would like to search: ")
-            lower_case_converted_list = lower_case_coll_function(coll)
-            target = user_function()
+            target = name_or_index_function(coll)
             if target is False:
                 break
-            match target.lower() in lower_case_converted_list:
-                case True:
-                    print(f"{target} has been found in the file!")
-                case False:
-                    print(f"{target} has not been found in the file!")
-                case _:
-                    print("ERROR")
+            print(f"Name: {coll[target]}\nIndex: {target}")
         except ValueError:
             print("ERROR!")
         except Exception as e:
@@ -85,14 +77,22 @@ def remove_list(coll):
     while True:
         try:
             for_print_function(coll)
-            target = user_function_with_confirm()
+            target = name_or_index_function(coll)
             if target is False:
                 break
-            elif target in coll:
-                print(f"{target} found and has been removed!\n")
-                coll.remove(target)
-            else:
-                print(f"{target} has not been found, no changes have been made!")
+            confirm = input(f"\nType '//' to return to main menu:\nAre you sure you want to remove this item?\nIndex | {target}\n Name | {coll[target]}\nY/N:\n>>> ")
+            if confirm == '//':
+                break
+            match confirm.lower():
+                case 'y':
+                    del coll[target]
+                    print(f"{coll[target]} has been removed! ")
+                    for_print_function(coll)
+                case 'n':
+                    print("Changes have not been made! ")
+                    continue
+                case _:
+                    print("ERROR! ")
         except ValueError:
             print("ERROR! That item doesn't exist in the list! ")
 
@@ -170,7 +170,7 @@ def lower_case_coll_function(coll):
 # that the list coll which the whole program uses won't be affected, then a for loop is again used but will print each item of both unsorted and sorted alongside each other
 # simultaneously in a table. The table has a feature depending on the size of the item inside both lists will determine how many spaces are added, this ensures the walls
 # don't move and stay connected as column.
-def list_sorting(coll):  # ToDo ~ make the function modular in size, i.e increase amount of '=====' borders depending on the size.
+def list_sorting(coll):  # ToDo ~ make the function modular in size, E.g increase amount of '=====' borders depending on the size.
     temporary_list = []
     for x in coll:
         temporary_list.append(x)
@@ -186,26 +186,34 @@ def test_function(coll):  # isnumeric()
 
 
 def name_or_index_function(coll):
-    def index_function():
-        for_print_function(coll)
-        input_target_index = int(input("Enter the item's index number:\n>>> "))
-        return input_target_index
+    try:
+        def index_function():
+            for_print_function(coll)
+            input_target_index = int(input("Enter the item's index number:\n>>> "))
+            return input_target_index
 
-    def name_function():
-        for_print_function(coll)
-        input_target_name = input("Enter the item's name:\n>>> ")
-        for target in range(len(coll)):
-            if coll[target] == input_target_name:
-                print(target)
-                return target
-        return input_target_name
+        def name_function():
+            for_print_function(coll)
+            input_target_name = input("Enter the item's name:\n>>> ")
+            for target in range(len(coll)):
+                if coll[target] == input_target_name:
+                    return target
+            return input_target_name
 
-    user_input = int(input("Do you want to use item index or name? \n1)Index\n2)Name\n>>> "))
-    if user_input == 1:
-        target_input = index_function()
-    elif user_input == 2:
-        target_input = name_function()
-    return target_input
+        user_input = input("Type '//' to return to main menu:\nDo you want to use item index or name? \n1)Index\n2)Name\n>>> ")
+        if user_input == '//':
+            return False
+        if user_input == '1':
+            target_input = index_function()
+            return target_input
+        elif user_input == '2':
+            target_input = name_function()
+            return target_input
+    except ValueError:
+        print("Value Error!")
+
+    except Exception as e:
+        print(f"ERROR!\nA general error has occurred!\nMore info: \n{e}")
 
 
 if __name__ == '__main__':
