@@ -1,6 +1,4 @@
-# ToDO ~ To implement index or name function without cluttering the code, ask the user first, pass that value into the function, depending on the value
-# ToDO ~ that the user typed, index or name would be called.
-# ToDo ~ This function will be called then assign the contents of the text file 'list.txt' to a list called 'coll'(Collection).
+# This function will be called then assign the contents of the text file 'list.txt' to a list called 'coll'(Collection).
 def list_function():
     with open('list.txt', 'r') as file:
         coll = file.read().split()
@@ -124,20 +122,6 @@ def user_function_with_confirm():
                 case _:
                     print("\nInvalid option, please try again:")
 
-        except ValueError as e:
-            print(f"ERROR! {e} has caused an Value error!")
-        except Exception as e:
-            print(f"ERROR!\nA general error has occurred!\nMore info: \n{e}")
-
-
-# This function is almost identical to user_function_with_confirm but without the 'confirm' variable.
-def user_function():
-    while True:
-        try:
-            user_input = input("\nType '//' to return to main menu:\n>>> ")
-            if user_input == '//':  # concept ~ The user can enter two forward slashes to leave exit out of a function.
-                return False
-            return user_input
         except ValueError as e:
             print(f"ERROR! {e} has caused an Value error!")
         except Exception as e:
