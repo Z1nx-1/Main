@@ -141,7 +141,7 @@ def for_print_function(coll):
 # that the list coll which the whole program uses won't be affected, then a for loop is again used but will print each item of both unsorted and sorted alongside each other
 # simultaneously in a table. The table has a feature depending on the size of the item inside both lists will determine how many spaces are added, this ensures the walls
 # don't move and stay connected as column.
-def list_sorting_table(coll):  # ToDo ~ make the function modular in size, E.g increase amount of '=====' borders depending on the size.
+def list_sorting_table(coll):  # ToDo ~ make the function modular in size, E.g increase amount of '=====' borders depending on the size. !!!!
     temporary_list = []
     for x in coll:
         temporary_list.append(x)
