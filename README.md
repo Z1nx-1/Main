@@ -7,11 +7,11 @@ This whole repo is just for learning and has no actual real world practical use.
 ## Function break out's
 ```
 def function_one():
-		while True:
-		user_input = function_two()
-		if user_input is False:
-			break
-		elif ...	
+    while True:
+        user_input = function_two()
+        if user_input is False:
+            break
+        elif ...	
 
 
 def function_two():
