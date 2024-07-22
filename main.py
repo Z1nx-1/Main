@@ -10,7 +10,7 @@ def main():
     coll = list_function()
     while True:
         try:
-            user_input = int(input("----------MAIN MENU----------\n1)Add to list\n2)Search list\n3)Remove from list\n4)Save changes\n5)Cancel changes/Refresh\n6)Print list\n7)Sort table\n-----------------------------\n>>> "))
+            user_input = int(input("----------MAIN MENU----------\n1)Add to list\n2)Search list\n3)Remove from list\n4)Save changes\n5)Cancel changes/Refresh\n6)Print list\n7)Sorting table\n-----------------------------\n>>> "))
             match user_input:
                 case 1:
                     add_to_list(coll)
@@ -27,7 +27,7 @@ def main():
                     for_print_function(coll)
                     print("\n\n")
                 case 7:
-                    list_sorting(coll)
+                    list_sorting_table(coll)
                 case _:
                     print("\nInvalid option, please try again:")
         except ValueError as e:
@@ -45,14 +45,13 @@ def add_to_list(coll):
             user_input = user_function_with_confirm()
             if user_input is False:
                 break
-            coll.append(user_input)  # The data that the user wants to add into the list will be added into the end.
+            else:
+                coll.append(user_input)  # The data that the user wants to add into the list will be added into the end.
         except Exception as e:
             print(f"ERROR!\nA general error has occurred!\nMore info: \n{e}")
 
 
 # This function gives the user the ability to search the list for a specific item.
-# (P1) The lower_case_coll_function will convert all items in the coll list into lower case.
-# (P2) The purpose for this is to allow the user to enter an item name without worrying about capitalization.
 def search_list(coll):
     while True:
         try:
@@ -68,7 +67,6 @@ def search_list(coll):
 
 
 # This function, like the 'search_list' function will ask the user for an item name and then remove that item from the list.
-# Implement a way for the user to remove an item with the index number of the item.
 def remove_list(coll):
     while True:
         try:
@@ -77,9 +75,9 @@ def remove_list(coll):
             if target is False:
                 break
             confirm = input(f"\nType '//' to return to main menu:\nAre you sure you want to remove this item?\nItem index| {target}\n Item name| {coll[target]}\nY/N:\n>>> ")
-            if confirm == '//':
-                break
             match confirm.lower():
+                case '//':
+                    break
                 case 'y':
                     del coll[target]
                     print("Item(s) have been removed! ")
@@ -109,7 +107,7 @@ def save_to_file(coll):
 def user_function_with_confirm():
     while True:
         try:
-            user_input = input("Type '//' to return\n>>> ")
+            user_input = input("Type '//' to return\n>>> ")  # Before the function is called a print message will complete the beginning of this message.
             if user_input == '//':  # Allows the user to leave the current function
                 return False
             confirm_user_input = input(f"Is this correct? -- {user_input} --\n\nY/N: \n>>> ")
@@ -130,7 +128,7 @@ def user_function_with_confirm():
 
 # When called this function will print each line of the list with a number on each item in ascending order, which makes the list easier to read.
 def for_print_function(coll):
-    val = 0  # This variable is responsible for the item number and will increment once each loop, giving each item a number.
+    val = 0  # This variable is responsible for the item number and will increment once each loop, giving each item an ascending  number.
     print("\n\n-----------------------------\nList's current contents:")
     for content in coll:
         val += 1
@@ -138,20 +136,12 @@ def for_print_function(coll):
     print("-----------------------------")
 
 
-# The use of this function is for the ease of use for the user, otherwise the user would have to worry about capitalization.
-# The exported_data is a list which will read all the contents of the list 'coll' with a for loop which will convert each item into lower case -
-# thus defining exported data with all lower case item names.
-def lower_case_coll_function(coll):
-    exported_data = [x.lower() for x in coll]
-    return exported_data
-
-
 # list_sorting function is alot like the for_print_function but will instead sort the list and print a table consisting of unsorted and sorted.
 # The function will define an empty list called temporary list and will use a for loop which will append each item from coll then will sort the temporary list meaning
 # that the list coll which the whole program uses won't be affected, then a for loop is again used but will print each item of both unsorted and sorted alongside each other
 # simultaneously in a table. The table has a feature depending on the size of the item inside both lists will determine how many spaces are added, this ensures the walls
 # don't move and stay connected as column.
-def list_sorting(coll):  # ToDo ~ make the function modular in size, E.g increase amount of '=====' borders depending on the size.
+def list_sorting_table(coll):  # ToDo ~ make the function modular in size, E.g increase amount of '=====' borders depending on the size.
     temporary_list = []
     for x in coll:
         temporary_list.append(x)
@@ -162,8 +152,8 @@ def list_sorting(coll):  # ToDo ~ make the function modular in size, E.g increas
     print("|===================================|\n\n")
 
 
-# name_or_index_function is used when a function that uses user input and might need to use a keyword or index, mainly if there are multiple
-# items with the same name, hence the usage of index.
+# name_or_index_function is used when a function that uses user input that might need to use a keyword or index, mainly if there are multiple
+# items with the same name, indexes are used.
 # The function also utilises nested function as the functions within only work in this work flow.
 def name_or_index_function(coll):
     try:
