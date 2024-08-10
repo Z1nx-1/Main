@@ -142,9 +142,7 @@ def for_print_function(coll):
 # simultaneously in a table. The table has a feature depending on the size of the item inside both lists will determine how many spaces are added, this ensures the walls
 # don't move and stay connected as column.
 def list_sorting_table(coll):  # ToDo ~ make the function modular in size, E.g increase amount of '=====' borders depending on the size. !!!!
-    temporary_list = []
-    for x in coll:
-        temporary_list.append(x)
+    temporary_list = coll.copy()
     temporary_list.sort()
     print("\n\n|===================================|\n|     Unsorted     |     Sorted     |")  # 19 | 15
     for content1, content2 in zip(coll, temporary_list):
