@@ -1,3 +1,5 @@
+import subprocess #subprocess.run(["clear"]) Copy this to clear the terminal.
+
 # This function will be called then assign the contents of the text file 'list.txt' to a list called 'coll'(Collection).
 def list_function():
     with open('list.txt', 'r') as file:
@@ -21,9 +23,11 @@ def main():
                 case 4:
                     save_to_file(coll)
                 case 5:
+                    subprocess.run(["clear"])
                     print("All changes have been restored! ")
                     main()  # by using recursion with the main() function the list 'coll' will get redefined with 'coll = list_function()' at the start of main(), in other words will replenish the list with the current txt contents.
                 case 6:
+                    subprocess.run(["clear"])
                     for_print_function(coll)
                     print("\n\n")
                 case 7:
@@ -44,6 +48,7 @@ def add_to_list(coll):
             print("Enter the name of the item you would like to add: ")
             user_input = user_function_with_confirm()
             if user_input is False:
+                subprocess.run(["clear"])
                 break
             else:
                 coll.append(user_input)  # The data that the user wants to add into the list will be added into the end.
@@ -58,6 +63,7 @@ def search_list(coll):
             for_print_function(coll)
             target = name_or_index_function(coll)
             if target is False:
+                subprocess.run(["clear"])
                 break
             print(f"\nItem index| {target}\n Item name| {coll[target]}")
         except ValueError:
@@ -73,6 +79,7 @@ def remove_list(coll):
             for_print_function(coll)
             target = name_or_index_function(coll)
             if target is False:
+                subprocess.run(["clear"])
                 break
             confirm = input(f"\nType '//' to return to main menu:\nAre you sure you want to remove this item?\nItem index| {target}\n Item name| {coll[target]}\nY/N:\n>>> ")
             match confirm.lower():
@@ -93,10 +100,11 @@ def remove_list(coll):
 # This function is used when the user has confirmed and is ready to commit the changes made in the local list into the text file.
 def save_to_file(coll):
     try:
+        subprocess.run(["clear"])
+        for_print_function(coll)
         with open('list.txt', 'w') as file:
             for content in coll:
                 file.write(content + '\n')
-                print(content)
             print("\nData has been applied to the file!\n")
     except Exception as e:
         print(f"ERROR!\nA general error has occurred!\nMore info: \n{e}")
@@ -136,13 +144,15 @@ def for_print_function(coll):
     print("-----------------------------")
 
 
+# ToDo ~ Rewrite, obsolete documentation.
 # list_sorting function is alot like the for_print_function but will instead sort the list and print a table consisting of unsorted and sorted.
 # The function will define an empty list called temporary list and will use a for loop which will append each item from coll then will sort the temporary list meaning
 # that the list coll which the whole program uses won't be affected, then a for loop is again used but will print each item of both unsorted and sorted alongside each other
 # simultaneously in a table. The table has a feature depending on the size of the item inside both lists will determine how many spaces are added, this ensures the walls
 # don't move and stay connected as column.
 def list_sorting_table(coll):  # ToDo ~ make the function modular in size, E.g increase amount of '=====' borders depending on the size. !!!!
-    temporary_list = coll.copy()
+    subprocess.run(["clear"])
+    temporary_list = coll.copy()  # coll.copy() is used so the coll list isn't affected at all.
     temporary_list.sort()
     print("\n\n|===================================|\n|     Unsorted     |     Sorted     |")  # 19 | 15
     for content1, content2 in zip(coll, temporary_list):
@@ -154,37 +164,56 @@ def list_sorting_table(coll):  # ToDo ~ make the function modular in size, E.g i
 # items with the same name, indexes are used.
 # The function also utilises nested function as the functions within only work in this work flow.
 def name_or_index_function(coll):
-    try:
-        # This function will ask the user for an index of an item and then return the integer
-        def index_function():
-            for_print_function(coll)
-            input_target_index = int(input("Enter the item's index number:\n>>> "))
-            return input_target_index
+    while True:
+        try:
+            # This function will ask the user for an index of an item and then return the integer
+            def index_function():
+                while True:
+                    try:
+                        for_print_function(coll)
+                        input_target_index = int(input("Enter the item's index number:\n>>> "))      
+                        if input_target_index > len(coll):
+                            print("Please enter a input that is not exceeding the list item amount!\n")
+                            continue
+                        else: 
+                            return input_target_index  
+                    except ValueError as e:
+                        print(f"Enter a valid. Error: {e}")
+                    except Exception:  # Can't reach due to the return, use a if statement
+                        print("Enter a valid input4.\n")
 
-        # This function will ask the user for the name of an item and then will find the item in the list then
-        # will get the index position of the item by using its name.
-        def name_function():
-            for_print_function(coll)
-            input_target_name = input("Enter the item's name:\n>>> ")
-            for target in range(len(coll)):
-                if coll[target] == input_target_name:
-                    return target
-            return input_target_name
-
-        user_input = input("Type '//' to return to main menu:\nDo you want to use item index or name? \n1)Index\n2)Name\n>>> ")
-        if user_input == '//':  # Returns to the main menu
-            return False
-        if user_input == '1':
-            target_input = index_function()
-            return target_input
-        elif user_input == '2':
-            target_input = name_function()
-            return target_input
-        #  I could use return target_input here but for some reason pycharm gives me a warning doing so.
-    except ValueError:
-        print("Value Error!")
-    except Exception as e:
-        print(f"ERROR!\nA general error has occurred!\nMore info: \n{e}")
+            # This function will ask the user for the name of an item and then will find the item in the list then
+            # will get the index position of the item by using its name.
+            def name_function():
+                while True:
+                    try:
+                        for_print_function(coll)
+                        input_target_name = input("Enter the item's name:\n>>> ")
+                        for target in range(len(coll)):
+                            if coll[target] == input_target_name:
+                                return target
+                            else:
+                                print("Enter a valid input.\n") # If an error ensues this print statement will print for each time there is an item in the list.
+                                continue
+                        #return input_target_name
+                    except ValueError as e:
+                        print(f"Enter a valid input!\nMore info:\n{e}")
+                    except Exception:
+                        print("Enter a valid input.9\n")
+            user_input = input("Type '//' to return to main menu:\nDo you want to use item index or name? \n1)Index\n2)Name\n>>> ")
+            if user_input == '//':  # Returns to the main menu
+                return False
+            if user_input == '1':
+                target_input = index_function()
+                return target_input
+            elif user_input == '2':
+                target_input = name_function()
+                return target_input
+            #  I could use return target_input here but for some reason pycharm gives me a warning doing so.
+        except ValueError:
+            print("Value Error!")
+        except Exception as e:
+            print(f"ERROR!\nA general error has occurred!\nMore info:\n{e}")
 
 
 if __name__ == '__main__':
