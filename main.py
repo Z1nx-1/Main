@@ -1,4 +1,7 @@
-import subprocess #subprocess.run(["clear"]) Copy this to clear the terminal.
+
+import os
+# subprocess.run(["clear"]) Copy this to clear the terminal.
+
 
 # This function will be called then assign the contents of the text file 'list.txt' to a list called 'coll'(Collection).
 def list_function():
@@ -15,22 +18,32 @@ def main():
             user_input = int(input("----------MAIN MENU----------\n1)Add to list\n2)Search list\n3)Remove from list\n4)Save changes\n5)Cancel changes/Refresh\n6)Print list\n7)Sorting table\n-----------------------------\n>>> "))
             match user_input:
                 case 1:
+                    os.system('cls')
                     add_to_list(coll)
+                    os.system('cls')
                 case 2:
+                    os.system('cls')
                     search_list(coll)
+                    os.system('cls')
                 case 3:
+                    os.system('cls')
                     remove_list(coll)
+                    os.system('cls')
                 case 4:
+                    os.system('cls')
                     save_to_file(coll)
+                    os.system('cls')
                 case 5:
-                    subprocess.run(["clear"])
+                    os.system('cls')
                     print("All changes have been restored! ")
                     main()  # by using recursion with the main() function the list 'coll' will get redefined with 'coll = list_function()' at the start of main(), in other words will replenish the list with the current txt contents.
                 case 6:
-                    subprocess.run(["clear"])
+                    os.system('cls')
                     for_print_function(coll)
                     print("\n\n")
+                    os.system('cls')
                 case 7:
+                    os.system('cls')
                     list_sorting_table(coll)
                 case _:
                     print("\nInvalid option, please try again:")
@@ -48,7 +61,6 @@ def add_to_list(coll):
             print("Enter the name of the item you would like to add: ")
             user_input = user_function_with_confirm()
             if user_input is False:
-                subprocess.run(["clear"])
                 break
             else:
                 coll.append(user_input)  # The data that the user wants to add into the list will be added into the end.
@@ -63,7 +75,6 @@ def search_list(coll):
             for_print_function(coll)
             target = name_or_index_function(coll)
             if target is False:
-                subprocess.run(["clear"])
                 break
             print(f"\nItem index| {target}\n Item name| {coll[target]}")
         except ValueError:
@@ -79,7 +90,6 @@ def remove_list(coll):
             for_print_function(coll)
             target = name_or_index_function(coll)
             if target is False:
-                subprocess.run(["clear"])
                 break
             confirm = input(f"\nType '//' to return to main menu:\nAre you sure you want to remove this item?\nItem index| {target}\n Item name| {coll[target]}\nY/N:\n>>> ")
             match confirm.lower():
@@ -100,7 +110,6 @@ def remove_list(coll):
 # This function is used when the user has confirmed and is ready to commit the changes made in the local list into the text file.
 def save_to_file(coll):
     try:
-        subprocess.run(["clear"])
         for_print_function(coll)
         with open('list.txt', 'w') as file:
             for content in coll:
@@ -151,7 +160,6 @@ def for_print_function(coll):
 # simultaneously in a table. The table has a feature depending on the size of the item inside both lists will determine how many spaces are added, this ensures the walls
 # don't move and stay connected as column.
 def list_sorting_table(coll):  # ToDo ~ make the function modular in size, E.g increase amount of '=====' borders depending on the size. !!!!
-    subprocess.run(["clear"])
     temporary_list = coll.copy()  # coll.copy() is used so the coll list isn't affected at all.
     temporary_list.sort()
     print("\n\n|===================================|\n|     Unsorted     |     Sorted     |")  # 19 | 15
@@ -170,17 +178,17 @@ def name_or_index_function(coll):
             def index_function():
                 while True:
                     try:
+                        os.system('cls')
                         for_print_function(coll)
                         input_target_index = int(input("Enter the item's index number:\n>>> "))      
                         if input_target_index > len(coll):
                             print("Please enter a input that is not exceeding the list item amount!\n")
                             continue
-                        else: 
-                            return input_target_index  
+                        else:
+                            os.system('cls')
+                            return input_target_index
                     except ValueError as e:
                         print(f"Enter a valid. Error: {e}")
-                    except Exception:  # Can't reach due to the return, use a if statement
-                        print("Enter a valid input4.\n")
 
             # This function will ask the user for the name of an item and then will find the item in the list then
             # will get the index position of the item by using its name.
@@ -191,15 +199,14 @@ def name_or_index_function(coll):
                         input_target_name = input("Enter the item's name:\n>>> ")
                         for target in range(len(coll)):
                             if coll[target] == input_target_name:
+                                os.system('cls')
                                 return target
                             else:
-                                print("Enter a valid input.\n") # If an error ensues this print statement will print for each time there is an item in the list.
+                                print("Enter a valid input.\n")  # ToDo fix this: If an error ensues this print statement will print for each time there is an item in the list.
                                 continue
-                        #return input_target_name
+                        # return input_target_name
                     except ValueError as e:
                         print(f"Enter a valid input!\nMore info:\n{e}")
-                    except Exception:
-                        print("Enter a valid input.9\n")
             user_input = input("Type '//' to return to main menu:\nDo you want to use item index or name? \n1)Index\n2)Name\n>>> ")
             if user_input == '//':  # Returns to the main menu
                 return False
