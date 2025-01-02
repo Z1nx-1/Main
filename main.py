@@ -64,6 +64,7 @@ def add_to_list(coll):
                 break
             else:
                 coll.append(user_input)  # The data that the user wants to add into the list will be added into the end.
+                os.system("cls")
         except Exception as e:
             print(f"ERROR!\nA general error has occurred!\nMore info: \n{e}")
 
@@ -146,7 +147,7 @@ def user_function_with_confirm():
 # When called this function will print each line of the list with a number on each item in ascending order, which makes the list easier to read.
 def for_print_function(coll):
     val = 0  # This variable is responsible for the item number and will increment once each loop, giving each item an ascending  number.
-    print("\n\n-----------------------------\nList's current contents:")
+    print("-----------------------------\nList's current contents:")
     for content in coll:
         val += 1
         print(f"{val}){content}")
@@ -162,7 +163,7 @@ def for_print_function(coll):
 def list_sorting_table(coll):  # ToDo ~ make the function modular in size, E.g increase amount of '=====' borders depending on the size. !!!!
     temporary_list = coll.copy()  # coll.copy() is used so the coll list isn't affected at all.
     temporary_list.sort()
-    print("\n\n|===================================|\n|     Unsorted     |     Sorted     |")  # 19 | 15
+    print("|===================================|\n|     Unsorted     |     Sorted     |")  # 19 | 15
     for content1, content2 in zip(coll, temporary_list):
         print("|", content1, " "*(15-len(content1)), "|", content2, " "*(13-len(content2)), "|")
     print("|===================================|\n\n")
