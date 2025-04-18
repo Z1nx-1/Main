@@ -42,15 +42,17 @@ def main():
                     os.system('cls')
                     for_print_function(coll)
                     print("\n\n")
-                    os.system('cls')
                 case 7:
                     os.system('cls')
                     list_sorting_table(coll)
                 case _:
-                    print("\nInvalid option, please try again:")
+                    os.system('cls')
+                    print("Invalid option, please try again:")
         except ValueError as e:
+            os.system('cls')
             print(f"ERROR! {e} has caused an Value error!")
         except Exception as e:
+            os.system('cls')
             print(f"ERROR!\nA general error has occurred!\nMore info: \n{e}")
 
 
