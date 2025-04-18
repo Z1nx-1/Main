@@ -1,4 +1,5 @@
 
+import time
 import os
 # subprocess.run(["clear"]) Copy this to clear the terminal.
 
@@ -92,15 +93,18 @@ def remove_list(coll):
             target = name_or_index_function(coll)
             if target is False:
                 break
-            confirm = input(f"\nType '//' to return to main menu:\nAre you sure you want to remove this item?\nItem index| {target}\n Item name| {coll[target]}\nY/N:\n>>> ")
+            confirm = input(f"Type '//' to return to main menu:\nAre you sure you want to remove this item?\nItem index| {target}\n Item name| {coll[target]}\nY/N:\n>>> ")
             match confirm.lower():
                 case '//':
                     break
                 case 'y':
                     del coll[target]
                     print("Item(s) have been removed! ")
+                    time.sleep(2)
+                    os.system('cls')
                 case 'n':
                     print("Changes have not been made! ")
+                    os.system('cls')
                     continue
                 case _:
                     print("ERROR! ")
@@ -167,6 +171,7 @@ def list_sorting_table(coll):  # ToDo ~ make the function modular in size, E.g i
     for content1, content2 in zip(coll, temporary_list):
         print("|", content1, " "*(15-len(content1)), "|", content2, " "*(13-len(content2)), "|")
     print("|===================================|\n\n")
+    # os.system('cls')
 
 
 # name_or_index_function is used when a function that uses user input that might need to use a keyword or index, mainly if there are multiple
@@ -181,13 +186,18 @@ def name_or_index_function(coll):
                     try:
                         os.system('cls')
                         for_print_function(coll)
-                        input_target_index = int(input("Enter the item's index number:\n>>> "))      
-                        if input_target_index > len(coll):
-                            print("Please enter a input that is not exceeding the list item amount!\n")
+                        input_target_index = input("Type '//' to return to main menu:\nEnter the item's index number:\n>>> ")
+                        if input_target_index == "//":
+                            os.system('cls')
+                            return False
+
+                        elif int(input_target_index) > len(coll):
+                            print("Please enter a input that is not exceeding the list index amount!\n")
+                            time.sleep(2)
                             continue
                         else:
                             os.system('cls')
-                            return input_target_index
+                            return int(input_target_index)
                     except ValueError as e:
                         print(f"Enter a valid. Error: {e}")
 
@@ -196,16 +206,20 @@ def name_or_index_function(coll):
             def name_function():
                 while True:
                     try:
+                        os.system('cls')
                         for_print_function(coll)
-                        input_target_name = input("Enter the item's name:\n>>> ")
+                        input_target_name = input("Type '//' to return to main menu:\nEnter the item's name:\n>>> ")
+                        if input_target_name == '//':
+                            os.system('cls')
+                            return False
                         for target in range(len(coll)):
                             if coll[target] == input_target_name:
                                 os.system('cls')
                                 return target
-                            else:
-                                print("Enter a valid input.\n")  # ToDo fix this: If an error ensues this print statement will print for each time there is an item in the list.
-                                continue
-                        # return input_target_name
+                        if coll[target] != input_target_name:
+                            print("Invalid input: ")
+                            time.sleep(2)
+                            break
                     except ValueError as e:
                         print(f"Enter a valid input!\nMore info:\n{e}")
             user_input = input("Type '//' to return to main menu:\nDo you want to use item index or name? \n1)Index\n2)Name\n>>> ")
