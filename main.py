@@ -99,12 +99,12 @@ def remove_list(coll):
                     break
                 case 'y':
                     del coll[target]
+                    os.system('cls')
                     print("Item(s) have been removed! ")
-                    time.sleep(2)
-                    os.system('cls')
+
                 case 'n':
-                    print("Changes have not been made! ")
                     os.system('cls')
+                    print("Changes have not been made! ")
                     continue
                 case _:
                     print("ERROR! ")
@@ -182,9 +182,9 @@ def name_or_index_function(coll):
         try:
             # This function will ask the user for an index of an item and then return the integer
             def index_function():
+                os.system('cls')
                 while True:
                     try:
-                        os.system('cls')
                         for_print_function(coll)
                         input_target_index = input("Type '//' to return to main menu:\nEnter the item's index number:\n>>> ")
                         if input_target_index == "//":
@@ -192,8 +192,8 @@ def name_or_index_function(coll):
                             return False
 
                         elif int(input_target_index) > len(coll):
-                            print("Please enter a input that is not exceeding the list index amount!\n")
-                            time.sleep(2)
+                            os.system('cls')
+                            print("Please enter a input that is not exceeding the list index amount!")
                             continue
                         else:
                             os.system('cls')
@@ -204,9 +204,9 @@ def name_or_index_function(coll):
             # This function will ask the user for the name of an item and then will find the item in the list then
             # will get the index position of the item by using its name.
             def name_function():
+                os.system('cls')
                 while True:
                     try:
-                        os.system('cls')
                         for_print_function(coll)
                         input_target_name = input("Type '//' to return to main menu:\nEnter the item's name:\n>>> ")
                         if input_target_name == '//':
@@ -217,9 +217,9 @@ def name_or_index_function(coll):
                                 os.system('cls')
                                 return target
                         if coll[target] != input_target_name:
-                            print("Invalid input: ")
-                            time.sleep(2)
-                            break
+                            os.system('cls')
+                            print("Item does not exist or incorrect name was given.")
+                            continue
                     except ValueError as e:
                         print(f"Enter a valid input!\nMore info:\n{e}")
             user_input = input("Type '//' to return to main menu:\nDo you want to use item index or name? \n1)Index\n2)Name\n>>> ")
@@ -231,6 +231,10 @@ def name_or_index_function(coll):
             elif user_input == '2':
                 target_input = name_function()
                 return target_input
+            else:
+                os.system('cls')
+                print("Please enter a valid option: ")
+                for_print_function(coll)
             #  I could use return target_input here but for some reason pycharm gives me a warning doing so.
         except ValueError:
             print("Value Error!")
